@@ -18,17 +18,38 @@ module.exports = () => {
       filename: '[name].bundle.js',
       path: path.resolve(__dirname, 'dist'),
     },
-    devServer: {
+    // devServer: {
       
-    // The `hot` option is to use the webpack-dev-server in combination with the hot module replacement API.
-     hot: 'only',
-    },
+    // // The `hot` option is to use the webpack-dev-server in combination with the hot module replacement API.
+    //  hot: 'only',
+    // },
     plugins: [
           new HtmlWebpackPlugin({
       template: './index.html',
       title: 'Webpack Plugin'
     }),
-         new InjectManifest.GenerateSW()
+    new InjectManifest({
+      swSrc:'./src-sw.js',
+      swDest: 'service-worker.js',
+    }),
+
+     new WebpackPwaManifest({
+      name: 'Jate',
+      short_name: 'Jate',
+      description: 'Text editor',
+      background_color: '#7eb4e2',
+      theme_color: '#7eb4e2',
+      start_url: './',
+      publicPath: './',
+      icons: [
+        {
+          src: path.resolve('./src/images/logo.png'),
+          sizes: [96, 128, 192, 256, 384, 512],
+          destination: path.join('assets', 'icons'),
+        },
+      ],
+    }),
+
     ],
 
 
